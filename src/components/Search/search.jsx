@@ -1,20 +1,48 @@
 import React,  { Component } from 'react';
+import { Link } from 'react-router-dom';
+import './search.css';
 
-class CreateResource extends Component {
+class Search extends Component {
     render(){
-        return (
-            <div>
-                <form class="navbar-form" role="search">
-                    <div class="input-group add-on">
-                        <input class="form-control" placeholder="Search Students/Resources" name="srch-term" id="srch-term" type="text"/>
-                        <div class="input-group-btn">
-                            <button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button>
+        const element = (
+            <div >
+                <div className="row">
+                    <div className="col-lg-4"></div>
+                    <div className="col-lg-4">
+                        <div className="input-group">
+                        <input type="text" className="form-control" placeholder="Search for Students/Resources..."/>
+                        <span className="input-group-btn">
+                            <button className="btn btn-default" type="button"><i className='glyphicon glyphicon-search'></i></button>
+                        </span>
                         </div>
                     </div>
-                </form>
+                    <div className="col-lg-4"></div>
+               </div>
+               <br/>
+               <div className="row">
+                    <div className="col-lg-3"></div>
+                    <div className="col-lg-3 ">
+                        <Link to='/views'>
+                            <img src = './images/download.png' alt='View Resource' className="img-responsive center-block leImage"/>
+                            View All Resources/Students
+                        </Link>
+                    </div>
+                    <div className="col-lg-3">
+                        <Link to='/createResource'>
+                            <img src = './images/images.png' alt='Add Resource' className="img-responsive center-block leImage"/>
+                            Add New Resource
+                        </Link>
+                    </div>
+                    <div className="col-lg-3"></div>
+               </div>
             </div>
         );
+        if(this.props.appear) {
+            return element;
+        } else {
+            return null;
+        }
     }
 }
 
-export default CreateResource
+export default Search
