@@ -1,6 +1,7 @@
 import React,  { Component } from 'react';
 
 class CreateResource extends Component {
+
     render(){
         return (
             <div className="container">
