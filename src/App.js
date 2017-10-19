@@ -7,13 +7,11 @@ import Footer from './components/Footer/footer';
 import './App.css';
 
 class App extends Component {
-
     render() {
         return ( 
         <div className="container">
-            
             <Switch>
-                <Route exact = {true} path="/" component={Home} />} />
+                <Route exact = {true} path="/" component={Home}/>
                 <Route path="/create" component={CreateResource} />
                 <Route path="/views" component={ViewResource}/>
               </Switch>

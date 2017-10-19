@@ -9,8 +9,8 @@ class Home extends Component {
     constructor(props){
         super(props);
         this.state = {
-            percent: 0,
-            loggedIn: false
+            percent: -1,
+            loggedIn: true
         };
     }     
     onShow = () => {
@@ -22,7 +22,10 @@ class Home extends Component {
 
     componentDidMount(){
         this.onShow();
-        axios.post('http://localhost:3001/api/authenticate', {
+        axios.post(
+            'http://192.168.43.196:3001/api/authenticate',
+            // 'http://localhost:3000/api/authenticate',
+             {
             name: 'Student Resource Center'
         })
         .then((response) => {
@@ -33,12 +36,12 @@ class Home extends Component {
     }
     render(){
         return (
-            <div className="home" >
+            <div className="home">
                     <ProgressBar 
                     percent= {this.state.percent}
                     autoIncrement={true}
                     intervalTime={(Math.random() * 1000)}
-                    spinner= {false}/>
+                    spinner= {'right'}/>
                 <h1>Student Resource Center</h1>
                 {this.state.loggedIn ?
                 (<div><div className="row">
