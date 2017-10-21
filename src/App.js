@@ -7,13 +7,22 @@ import Footer from './components/Footer/footer';
 import './App.css';
 
 class App extends Component {
+    state = {
+        token : ""
+    };
+
+    getToken = (token) => {
+        this.setState({token : token});
+    };
+
     render() {
+        console.log(this.state.token);
         return ( 
         <div className="container">
             <Switch>
-                <Route exact = {true} path="/" component={Home}/>
-                <Route path="/create" component={CreateResource} />
-                <Route path="/views" component={ViewResource}/>
+                <Route exact = {true} path="/" render={() => <Home getToken={this.getToken}/>}/>
+                <Route path="/create" render={() => <CreateResource token={this.state.token} />} />
+                <Route path="/views" render={() => <ViewResource token={this.state.token}/>}/>
               </Switch>
               <Footer/>
         </div>

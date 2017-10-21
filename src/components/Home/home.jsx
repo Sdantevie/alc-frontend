@@ -10,7 +10,7 @@ class Home extends Component {
         super(props);
         this.state = {
             percent: -1,
-            loggedIn: true
+            loggedIn: false
         };
     }     
     onShow = () => {
@@ -24,13 +24,14 @@ class Home extends Component {
         this.onShow();
         axios.post(
             'http://192.168.43.196:3001/api/authenticate',
-            // 'http://localhost:3000/api/authenticate',
+            // 'http://localhost:3001/api/authenticate',
              {
             name: 'Student Resource Center'
         })
         .then((response) => {
             console.log(response.data);
             this.onHide();
+            this.props.getToken(response.data.token);
         })
         .catch(error => console.log(error));
     }

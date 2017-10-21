@@ -1,9 +1,15 @@
-import React,  { Component } from 'react';
+import React from 'react';
 import axios from 'axios';
+import Nav from '../Nav/nav';
+import { withRouter } from 'react-router-dom';
 import ProgressBar from 'react-progress-bar-plus';
 import 'react-progress-bar-plus/lib/progress-bar.css';
 
-class CreateResource extends Component {
+class CreateResource extends React.Component {
+    // static propTypes = {
+    //     history : PropTypes.object.isRequired,
+    //     token : PropTypes.string
+    // }
     constructor(props){
         super(props);
         this.state ={
@@ -31,7 +37,8 @@ class CreateResource extends Component {
             course : this.state.course,
             school : this.state.school,
             subject : this.state.subject,
-            link : this.state.link
+            link : this.state.link,
+            token : this.props.token
         };
         console.log(JSON.stringify(data));
         const r = window.confirm("Are you Sure");
@@ -39,7 +46,10 @@ class CreateResource extends Component {
            this.setState({
                percent : 0
            });
-           axios.post('http://192.168.43.196:3001/students', data 
+           axios.post(
+               'http://192.168.43.196:3001/students',
+            //    'http://localhost:3001/students',
+            data 
            )
             .then( response => { 
                 console.log(response.data);
@@ -48,12 +58,19 @@ class CreateResource extends Component {
                 });
                 this.props.history.push('/');
             })
-            .catch(err => console.log(err));
+            .catch(err => { 
+                console.log(err);
+                this.setState({
+                    percent : 100
+                });
+                this.props.history.push('/');
+                alert(`There was ${err.message} Error, please try again`);
+            })
        }
     }
 
     render(){
-        console.log(this.state.studentsName);
+
         return (
             <div className="container">
                 <ProgressBar 
@@ -61,6 +78,7 @@ class CreateResource extends Component {
                 autoIncrement={true}
                 intervalTime={(Math.random() * 1000)}
                 spinner= {'right'}/>
+                <Nav switch={true}/>
                 <h2>Add a New Student/Resource</h2>
             <div className="panel panel-primary">
                 <div className="panel-heading">
@@ -130,4 +148,4 @@ class CreateResource extends Component {
     }
 }
 
-export default CreateResource;
+export default withRouter(CreateResource);
