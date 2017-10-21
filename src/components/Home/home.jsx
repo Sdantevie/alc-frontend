@@ -26,7 +26,7 @@ class Home extends Component {
             'http://192.168.43.196:3001/api/authenticate',
             // 'http://localhost:3001/api/authenticate',
              {
-            name: 'Student Resource Center'
+            name: 'theKingsBusiness'
         })
         .then((response) => {
             console.log(response.data);

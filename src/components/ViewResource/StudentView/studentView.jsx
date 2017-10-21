@@ -1,4 +1,5 @@
 import React,  { Component } from 'react';
+import { Link } from 'react-router-dom'
 import '../views.css';
 
 class StudentView extends Component {
@@ -12,7 +13,7 @@ class StudentView extends Component {
                         Specialization : EEE
                     </div>
                     <div className="features">
-                        <span>Steven has added 3 resources</span>
+                        <Link to="/">View Resources Added by Steven</Link>
                         <i className="glyphicon glyphicon-trash" onClick={this.props.onDeleteClick}></i>
                         <i className="glyphicon glyphicon-edit" onClick={this.props.onEditClick}></i>
                     </div>
