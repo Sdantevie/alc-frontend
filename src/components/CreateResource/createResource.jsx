@@ -1,15 +1,13 @@
 import React from 'react';
 import axios from 'axios';
-import Nav from '../Nav/nav';
+import {NotificationManager, NotificationContainer} from 'react-notifications';
 import { withRouter } from 'react-router-dom';
 import ProgressBar from 'react-progress-bar-plus';
 import 'react-progress-bar-plus/lib/progress-bar.css';
+import 'react-notifications/lib/notifications.css';
+import Nav from '../Nav/nav';
 
 class CreateResource extends React.Component {
-    // static propTypes = {
-    //     history : PropTypes.object.isRequired,
-    //     token : PropTypes.string
-    // }
     constructor(props){
         super(props);
         this.state ={
@@ -22,9 +20,17 @@ class CreateResource extends React.Component {
         };
     }
 
+    createNotification = (type) => {
+        return () => {
+              type === 'error' ?  NotificationManager.error('There was an error in adding the resource', 'Error', 5000) : 
+              NotificationManager.success('the Resource has been added Successfully', 'Success');
+        };
+      }
+    
+
     handleInputChange = (event) => {
         const target = event.target;
-        const value = target.type === 'checkbox' ? target.checked : target.value;
+        const value =  target.value;
         const name = target.name;
         this.setState({
           [name]: value
@@ -56,15 +62,16 @@ class CreateResource extends React.Component {
                 this.setState({
                     percent : 100
                 });
-                this.props.history.push('/');
+                this.createNotification('success');
+                // this.props.history.push('/');
             })
             .catch(err => { 
                 console.log(err);
                 this.setState({
                     percent : 100
                 });
-                this.props.history.push('/');
-                alert(`There was ${err.message} Error, please try again`);
+                this.createNotification('error');
+                // this.props.history.push('/');
             })
        }
     }
@@ -140,9 +147,10 @@ class CreateResource extends React.Component {
                 </div>
           </div>
           <button type="button"
-                  disabled={!this.state.studentsName || !this.state.school || !this.state.course} 
-                  className="btn btn-primary"
+                  className="btn btn-success"
                   onClick={this.handleSubmit}>Submit</button>
+
+                <NotificationContainer />
           </div>
         );
     }
