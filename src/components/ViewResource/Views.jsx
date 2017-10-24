@@ -2,6 +2,7 @@ import React,  { Component } from 'react';
 import StudentView from './StudentView/studentView';
 import ResourceView from './ResourceView/resourceView';
 import Nav from '../Nav/nav';
+import { withRouter} from 'react-router-dom';
 import ProgressBar from 'react-progress-bar-plus';
 import 'react-progress-bar-plus/lib/progress-bar.css';
 import axios from 'axios';
@@ -50,7 +51,6 @@ class View extends Component {
                studentResource : response.data,
                percent : 100
            });
-        console.log(response.data);
        }).catch((err) => {
            console.log(err);
            this.setState({
@@ -60,23 +60,15 @@ class View extends Component {
        : console.log('no where');
 
     }
-    editClick = () => {
-        alert('You\'ll edit this mf' );
-    }
 
-    deleteClick = () => {
-        alert('you\'ll soon delete this mf');
-    }
     render(){
-        console.log(this.state.studentResource);
         let view = (typeof this.state.studentResource !== 'undefined' && this.state.studentResource.length > 0) ? this.state.studentResource.map((item) => {
             return (
-                (item.name !== '' && this.props.name !== '') ? <StudentView onEditClick={this.editClick} onDeleteClick={this.deleteClick} data={item} getName={this.props.getName} /> 
+                item.name !== '' ? <StudentView token={this.props.token} data={item} getName={this.props.getName} getId={this.props.getId} /> 
                  : <ResourceView onEditClick={this.editClick} onDeleteClick={this.deleteClick} data={item} /> 
             );
         }) : ( <div className="jumbotron">There was an Error Retrieving Resources, please Visit the Home Page</div>);
-
-
+        
         return (
             <div>
                  <ProgressBar 
@@ -86,10 +78,10 @@ class View extends Component {
                 spinner= {'right'}/>
                 <Nav  switch = {false}/>
                 <br />
-                { view  }
+                {view}
             </div>
         );
     }
 }
 
-export default View
+export default withRouter(View);

@@ -1,6 +1,5 @@
 import React from 'react';
 import axios from 'axios';
-import {NotificationManager, NotificationContainer} from 'react-notifications';
 import { withRouter } from 'react-router-dom';
 import ProgressBar from 'react-progress-bar-plus';
 import 'react-progress-bar-plus/lib/progress-bar.css';
@@ -11,22 +10,41 @@ class CreateResource extends React.Component {
     constructor(props){
         super(props);
         this.state ={
-            studentsName : "",
-            school : "",
-            course : "",
-            subject : "",
-            link : "",
+            data : {
+                studentsName : "",
+                school : "",
+                course : "",
+                subject : "",
+                link : "",
+            },
             percent : -1
         };
     }
 
-    createNotification = (type) => {
-        return () => {
-              type === 'error' ?  NotificationManager.error('There was an error in adding the resource', 'Error', 5000) : 
-              NotificationManager.success('the Resource has been added Successfully', 'Success');
-        };
-      }
-    
+    componentDidMount() {
+        if(typeof this.props.id !== 'undefined')
+        this.setState({
+            percent : 0
+        });
+        axios({method : 'get',
+            // url : 'http://localhost:3001/students',
+                url : `http://192.168.43.196:3001/students/${this.props.id}`,
+                headers : {
+                'x-access-token' : this.props.token 
+                }
+            }).then(response => {
+                this.setState({
+                   data : response.data,
+                    percent : 100
+                });
+            }).catch((err) => {
+                console.log(err);
+                this.setState({
+                    percent : 100
+                });
+            });
+    }
+   
 
     handleInputChange = (event) => {
         const target = event.target;
@@ -39,12 +57,12 @@ class CreateResource extends React.Component {
       }
     handleSubmit = () => {
         let data =  {
-            name : this.state.studentsName,
-            course : this.state.course,
-            school : this.state.school,
-            subject : this.state.subject,
-            link : this.state.link,
-            token : this.props.token
+            name : this.state.data.studentsName,
+            course : this.state.data.course,
+            school : this.state.data.school,
+            subject : this.state.data.subject,
+            link : this.state.data.link,
+            token : this.props.data.token
         };
         console.log(JSON.stringify(data));
         const r = window.confirm("Are you Sure");
@@ -77,7 +95,7 @@ class CreateResource extends React.Component {
     }
 
     render(){
-
+        console.log(this.props.id);
         return (
             <div className="container">
                 <ProgressBar 
@@ -86,7 +104,7 @@ class CreateResource extends React.Component {
                 intervalTime={(Math.random() * 1000)}
                 spinner= {'right'}/>
                 <Nav switch={true}/>
-                <h2>Add a New Student/Resource</h2>
+                <h2>Add/Edit Student Resource</h2>
             <div className="panel panel-primary">
                 <div className="panel-heading">
                     <h3 className="panel-title">Student's Details</h3>
@@ -99,7 +117,7 @@ class CreateResource extends React.Component {
                          placeholder="Name..."
                          name="studentsName"
                          onChange={this.handleInputChange}
-                         value={this.state.studentsName}/>
+                         value={this.state.data.studentsName}/>
                     </div>
                     <div className="col-lg-6">
                         <span>Your School</span>
@@ -108,7 +126,7 @@ class CreateResource extends React.Component {
                         placeholder="Institution..."
                         name="school"
                         onChange={this.handleInputChange}
-                        value={this.state.school}
+                        value={this.state.data.school}
                         />
                     </div>
                     <div className="col-lg-12"><br/></div>
@@ -119,7 +137,7 @@ class CreateResource extends React.Component {
                         placeholder="Course of Study..."
                         name="course"
                         onChange={this.handleInputChange}
-                        value={this.state.course}/>
+                        value={this.state.data.course}/>
                     </div>
                 </div>
           </div>
@@ -135,22 +153,20 @@ class CreateResource extends React.Component {
                             placeholder="Subject.."
                             name="subject"
                             onChange={this.handleInputChange}
-                            value={this.state.subject}/>
+                            value={this.state.data.subject}/>
                             <span>Link</span>
                             <input type="text" 
                             className="form-control" 
                             placeholder="Link to Resource..."
                             name="link"
                             onChange={this.handleInputChange}
-                            value={this.state.link}/>
+                            value={this.state.data.link}/>
                     </div>
                 </div>
           </div>
           <button type="button"
                   className="btn btn-success"
                   onClick={this.handleSubmit}>Submit</button>
-
-                <NotificationContainer />
           </div>
         );
     }

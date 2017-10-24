@@ -45,19 +45,7 @@ class Home extends Component {
                     spinner= {'right'}/>
                 <h1>Student Resource Center</h1>
                 {this.state.loggedIn ?
-                (<div><div className="row">
-                    <div className="col-lg-4"></div>
-                    <div className="col-lg-4">
-                        <div className="input-group">
-                        <input type="text" className="form-control" placeholder="Search for Students/Resources..."/>
-                        <span className="input-group-btn">
-                            <button className="btn btn-default" type="button"><i className='glyphicon glyphicon-search'></i></button>
-                        </span>
-                        </div>
-                    </div>
-                    <div className="col-lg-4"></div>
-                </div>
-                <br/>
+                (<div>
                 <div className="row">
                         <div className="col-lg-3"></div>
                         <div className="col-lg-3 ">
